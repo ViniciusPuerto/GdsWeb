@@ -18,6 +18,7 @@ class Login extends Component {
 			adminLastName: "",
 			adminName: "",
 			adminAppId: 1,
+			loginComplete: false
 		};
 
 		this.handleClick = this.handleClick.bind(this);
@@ -62,7 +63,7 @@ class Login extends Component {
 			.then(response => {
 				if(response.ok) {
 					console.log(response)
-					this.setState({ adminToken: response.headers.get('authorization') })
+					this.setState({ adminToken: response.headers.get('authorization'), loginComplete: true })
 					return response.json()
 				} else {
 					alert("Usuário ou senha incorretos.");
@@ -86,8 +87,10 @@ class Login extends Component {
 
 				/* Block that make the redirect  */
 				console.log(this.state.adminToken)
+				
+				if (this.state.loginComplete == true){
 				this._setTheStatePush()
-
+				}
 			})
 
 
