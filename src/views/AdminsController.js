@@ -69,7 +69,7 @@ class AdminsController extends Component {
   }
   _createAdmin = () => {
     let confirmationPassword = false;
-    const url = api_url + "/admin";
+    const url = api_url + "/admin/";
     if (this.state.password === this.state.confirmPassword) {
       confirmationPassword = true;
       fetch(url, {
@@ -84,7 +84,7 @@ class AdminsController extends Component {
           password: this.state.password,
           first_name: this.state.name,
           last_name: this.state.last_name,
-          app_id: this.props.state.adminAppId,
+          app_id: this.props.location.state.adminAppId,
           is_god: false
         })
       });

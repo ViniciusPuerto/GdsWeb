@@ -13,6 +13,7 @@ import FormContent from "../components/FormContent";
 import InfoIcon from "@material-ui/icons/Info";
 import Modal from 'react-responsive-modal';
 import {api_url} from '../utils/urls';
+import { AsyncStorage } from 'AsyncStorage';
 const styles = theme => ({
   root: {
     display: "flex"
@@ -203,9 +204,9 @@ class Content extends Component {
     );
   }
  
-  deleteContent = (id) => {
+  deleteContent = async (id) => {
     let url =
-      api_url + `contents/${id}`;
+      api_url + `/contents/${id}`;
       if (
         window.confirm("Are you sure you wish to delete this content?")
       )
@@ -219,13 +220,24 @@ class Content extends Component {
     }) /*end fetch */
       .then(response => {
         console.log(response);
-        return response.json();
+        //this.setState({ ResponceStatus: response.status });
+        if(response.status == 204){
+          console.log("Apaguado com Sucesso");
+          
+          return response.json();
+        } else {
+          console.log("Nao foi possivel apagar")
+        }
+        
       })
+
       // proepi.desenvolvimento@gmail.com
       // !ProEpiDev_1
-      .then(responseJson => {
-        
-      });
+
+      
+      /*.then(responseJson => {
+      });*/
+      
   };
   
   onOpenModalDetails = () => {
@@ -302,6 +314,7 @@ class Content extends Component {
             </Button>
           </CardActions>
         </Card>
+        
       </div>
     );
   }

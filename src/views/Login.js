@@ -5,6 +5,7 @@ import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import { api_url } from '../utils/urls';
+import { AsyncStorage } from 'AsyncStorage';
 
 class Login extends Component {
 
@@ -18,14 +19,31 @@ class Login extends Component {
 			adminLastName: "",
 			adminName: "",
 			adminAppId: 1,
-			loginComplete: false
 		};
 
 		this.handleClick = this.handleClick.bind(this);
 
 	}
+	componentDidMount() {
+		this.getInfos();
+	}
+
+	getInfos = async () => {
+		console.log(this.props)
+		//console.log(this.props.location.state.adminToken);
+        let verifyLogged = await AsyncStorage.getItem('verifyLogged');
+		this.setState({ verifyLogged });
+
+		console.log(this.state.verifyLogged)
+
+		if(this.state.verifyLogged == "true"){
+			//Adicionar caminho para a pagina home			
+		}
+    }
 
 	_setTheStatePush = () => {
+		AsyncStorage.setItem('verifyLogged', this.state.isLogged)
+
 		this.props.history.push({
 			pathname: '/home',
 			state: {
@@ -35,7 +53,8 @@ class Login extends Component {
 				adminEmail: this.state.adminEmail,
 				adminId: this.state.adminId,
 				adminIsGod: this.state.adminIsGod,
-				adminAppId: this.state.adminAppId
+				adminAppId: this.state.adminAppId,
+				isLogged: this.state.isLogged
 			}
 			
 		});
@@ -63,7 +82,7 @@ class Login extends Component {
 			.then(response => {
 				if(response.ok) {
 					console.log(response)
-					this.setState({ adminToken: response.headers.get('authorization'), loginComplete: true })
+					this.setState({ adminToken: response.headers.get('authorization'), isLogged: "true" })
 					return response.json()
 				} else {
 					alert("Usuário ou senha incorretos.");
@@ -87,8 +106,8 @@ class Login extends Component {
 
 				/* Block that make the redirect  */
 				console.log(this.state.adminToken)
-				
-				if (this.state.loginComplete == true){
+
+				if (this.state.isLogged == "true"){
 				this._setTheStatePush()
 				}
 			})

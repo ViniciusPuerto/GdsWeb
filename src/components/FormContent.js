@@ -71,7 +71,8 @@ class FormContent extends Component {
   };
 
   _updateContent = () => {
-    let url = api_url + this.props.contentId;
+    console.log(this.props.contentId)
+    let url = api_url + "/contents/" + this.props.contentId;
     fetch(url, {
       method: "PUT",
       headers: {

@@ -151,6 +151,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    
         let AdminParams = this.props.location.state
         this.setState({
           adminName: AdminParams.adminName,
@@ -159,10 +160,14 @@ class Home extends Component {
           adminIsGod: AdminParams.adminIsGod,
           adminToken: AdminParams.adminToken,
           adminAppId: AdminParams.adminAppId,
-          adminEmail: AdminParams.adminEmail,
-
+          adminEmail: AdminParams.adminEmail
         })
-        console.log(this.props.location)
+
+        //console.log(this.props.location)
+        if(this.props.location.state.isLogged == "true"){
+          this.setState({renderContent: 'dashboard'})
+        }
+        
   }
   
   handleDrawerOpen = () => {

@@ -65,7 +65,7 @@ class FormSymptom extends Component {
   };
 
   _updateContent = () => {
-    let url = api_url + this.props.contentId;
+    let url = api_url + "/symptoms/" + this.props.contentId;
     fetch(url, {
       method: "PATCH",
       headers: {
